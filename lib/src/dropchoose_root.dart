@@ -205,6 +205,7 @@ class _DropChooseState<T> extends State<DropChoose<T>> with DropChooseFunc {
       barrierColor: Colors.transparent,
       barrierDismissible: false, // 个别手机不生效
       context: context,
+      useSafeArea: false,
       builder: (_) {
         return Material(
           color: Colors.transparent,

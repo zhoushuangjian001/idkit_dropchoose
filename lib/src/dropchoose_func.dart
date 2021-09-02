@@ -21,7 +21,6 @@ class DropChooseFunc {
     double offset,
   ) {
     late double dy;
-    double topOffset = MediaQuery.of(context).viewPadding.top;
     Size screenSize = MediaQuery.of(context).size;
     double total = dropMenuHeight + offset;
     bool drowState = (screenSize.height - rect.bottom) >= total;
@@ -30,7 +29,7 @@ class DropChooseFunc {
     } else {
       dy = rect.top - offset;
     }
-    return Point(rect.left, dy - topOffset);
+    return Point(rect.left, dy);
   }
 
   /// 获取当前组件的大小
@@ -69,6 +68,7 @@ class DropChooseFunc {
                 return emptyPage ?? DropChooseFunc.getEmptyPage();
               }
               return ListView.builder(
+                padding: EdgeInsets.zero,
                 itemBuilder: (_, index) {
                   T data = list[index];
                   return GestureDetector(
@@ -83,25 +83,6 @@ class DropChooseFunc {
             } else {
               return errorPage ?? DropChooseFunc.getErrorPage();
             }
-          },
-        );
-        _widget = FutureBuilder(
-          future: future,
-          initialData: <T>[],
-          builder: (_, AsyncSnapshot<List<T>> asyncSnapshot) {
-            List<T> list = asyncSnapshot.data!;
-            return ListView.builder(
-              itemBuilder: (_, int index) {
-                T data = list[index];
-                return GestureDetector(
-                  behavior: HitTestBehavior.translucent,
-                  onTap: () => itemChick(data),
-                  child: itemForDropMenuAtIndexPath(data, index),
-                );
-              },
-              itemCount: list.length,
-              cacheExtent: cacheExtent,
-            );
           },
         );
         break;
@@ -119,6 +100,7 @@ class DropChooseFunc {
                 return emptyPage ?? DropChooseFunc.getEmptyPage();
               }
               return GridView.builder(
+                padding: EdgeInsets.zero,
                 gridDelegate: gridDelegate!,
                 itemBuilder: (_, index) {
                   T data = list[index];
